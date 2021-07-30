@@ -1,0 +1,91 @@
+# Q1 find the highest score
+
+while True:
+    try:
+        N,M = [int(num) for num in input().split()]
+        score_list = [int(score) for score in input().split()]
+        op_list = []
+        for idx in range(M):
+            op_list.append(input().split())
+        for op in op_list:
+            if op[0] == "U":
+                index = int(op[1]) - 1
+                score_list[index] = int(op[2])
+            else:
+                low = min(int(op[1]) - 1,int(op[2]) - 1)
+                high = max(int(op[1]) - 1,int(op[2]) - 1)
+                print(max(score_list[low:high + 1]))
+    except:
+        break
+
+
+
+# Q2 simple error recording
+
+error_dict = {}
+ 
+while True:
+    try:
+        init_record = input().split()
+        file_name = init_record[0][init_record[0].rfind("\\") + 1:]
+        row = init_record[1]
+        record = (file_name,row)
+ 
+ 
+        if record in error_dict.keys():
+            error_dict[record] += 1
+        else:
+            error_dict[record] = 1
+    except:
+        break
+     
+sorted_error_list = sorted(error_dict.items(),key = lambda item:item[1],reverse = True)
+     
+iteration = 0
+for item in sorted_error_list:
+    file_name = item[0][0]
+    if len(file_name) > 16:
+        file_name = file_name[-16:]
+    row = item[0][1]
+    error = item[1]
+    print(" ".join([file_name,row,str(error)]))
+    iteration += 1
+    if iteration >= 8:
+        break
+
+
+
+# Q3 comparison between two sets of cards
+
+single_value_dict  = {"3":0,"4":1,"5":2,"6":3,"7":4,"8":5,"9":6,"10":7,
+            "J":8,"Q":9,"K":10,"A":11,"2":12,"joker":11,"JOKER":12}
+ 
+while True:
+    try:
+        init_cards_1,init_cards_2 = [str(cards) for cards in input().split("-")]
+        cards_1 = [card for card in init_cards_1.split(" ")]
+        cards_2 = [card for card in init_cards_2.split(" ")]
+        len_1,len_2 = len(cards_1),len(cards_2)
+ 
+        if cards_1 == ["joker","JOKER"] or cards_2 == ["joker","JOKER"]:
+            print(" ".join(["joker","JOKER"]))
+            break
+ 
+        if len_1 == 4 and len_2 != 4:
+            print(init_cards_1)
+            break
+        if len_2 == 4 and len_1 != 4:
+            print(init_cards_2)
+            break
+ 
+        if len_1 == len_2:
+            if single_value_dict[cards_1[0]] > single_value_dict[cards_2[0]]:
+                print(init_cards_1)
+            else:
+                print(init_cards_2)
+            break
+ 
+        print("ERROR")
+    except:
+        break
+
